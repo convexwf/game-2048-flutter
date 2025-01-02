@@ -34,7 +34,7 @@ class SimpleGame extends FlameGame {
     // canvas.drawColor(currentColor, BlendMode.src);
 
     final int gridSize = 4;
-    final int tileSize = 80;
+    final double tileSize = 80;
     final double tilePadding = 15;
     final double borderSize = 15;
     final double shadowDepth = 4;
@@ -56,6 +56,7 @@ class SimpleGame extends FlameGame {
     final paint = Paint()..style = PaintingStyle.fill;
     canvas.drawRRect(
         backgroundRectShadow, paint..color = const Color(0xFFCAB28D));
+
     // Draw the background rect
     final backgroundRect = RRect.fromRectAndRadius(
       Rect.fromLTWH(
@@ -66,7 +67,25 @@ class SimpleGame extends FlameGame {
       ),
       const Radius.circular(15),
     );
-    canvas.drawRRect(backgroundRect, paint..color = Colors.orange[100]!);
+    canvas.drawRRect(backgroundRect, paint..color = const Color(0xFFFFE0B2));
+
+    // Draw the tiles
+    for (int i = 0; i < gridSize; i++) {
+      for (int j = 0; j < gridSize; j++) {
+        final rect = RRect.fromRectAndRadius(
+          Rect.fromLTWH(
+            offset.dx + borderSize + j * (tileSize + tilePadding),
+            offset.dy + borderSize + i * (tileSize + tilePadding),
+            tileSize,
+            tileSize,
+          ),
+          const Radius.circular(10),
+        );
+        canvas.drawRRect(rect.shift(Offset(shadowDepth, shadowDepth)),
+            paint..color = Colors.black.withValues(alpha: 0.2));
+        canvas.drawRRect(rect, paint..color = Colors.white);
+      }
+    }
   }
 
   @override
