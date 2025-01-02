@@ -9,44 +9,27 @@
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
-import 'package:flutter/material.dart';
+import 'package:game_2048/game.dart';
 import 'package:flame/game.dart';
-
-class SimpleGame extends FlameGame {
-  late Color currentColor = Colors.black;
-
-  double time = 0.0;
-  bool isWhite = false;
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-    canvas.drawColor(Colors.black, BlendMode.src);
-  }
-
-  @override
-  void update(double dt) {
-    super.update(dt);
-    if (isWhite) {
-      time += dt;
-      if (time >= 3) {
-        time = 0;
-        isWhite = false;
-      }
-      currentColor =
-          Color.lerp(Colors.black, Colors.white, time / 3) ?? Colors.black;
-    } else {
-      time += dt;
-      if (time >= 3) {
-        time = 0;
-        isWhite = true;
-      }
-      currentColor =
-          Color.lerp(Colors.white, Colors.black, time / 3) ?? Colors.black;
-    }
-  }
-}
+import 'package:flutter/material.dart';
+import 'package:game_2048/splash_screen.dart';
 
 void main() {
-  runApp(GameWidget(game: SimpleGame()));
+  runApp(MainApp());
+}
+
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Game 2048',
+      initialRoute: "/splash",
+      routes: {
+        "/splash": (context) => SplashScreen(),
+        "/game": (context) => GameWidget(game: SimpleGame()),
+      },
+    );
+  }
 }
