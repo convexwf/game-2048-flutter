@@ -12,6 +12,15 @@
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 
+class SimpleGamePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: GameWidget(game: SimpleGame()),
+    );
+  }
+}
+
 class SimpleGame extends FlameGame {
   late Color currentColor = Colors.black;
 
@@ -22,7 +31,7 @@ class SimpleGame extends FlameGame {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    canvas.drawColor(Colors.black, BlendMode.src);
+    canvas.drawColor(currentColor, BlendMode.src);
   }
 
   @override
