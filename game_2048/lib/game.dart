@@ -5,14 +5,14 @@
 /// File: lib/game.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-02
-/// Last modified: 2025-01-02
+/// Last modified: 2024-01-02
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 
-class SimpleGamePage extends StatelessWidget {
+class SimpleGameScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +31,42 @@ class SimpleGame extends FlameGame {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
-    canvas.drawColor(currentColor, BlendMode.src);
+    // canvas.drawColor(currentColor, BlendMode.src);
+
+    final int gridSize = 4;
+    final int tileSize = 80;
+    final double tilePadding = 15;
+    final double borderSize = 15;
+    final double shadowDepth = 4;
+
+    final double backgoundRectSize =
+        gridSize * (tileSize + tilePadding) - tilePadding + 2 * borderSize;
+    Offset offset = Offset(10, 10);
+
+    // Draw the background rect shadow (must paint first)
+    final backgroundRectShadow = RRect.fromRectAndRadius(
+      Rect.fromLTWH(
+        offset.dx + shadowDepth,
+        offset.dy + shadowDepth,
+        backgoundRectSize,
+        backgoundRectSize,
+      ),
+      const Radius.circular(15),
+    );
+    final paint = Paint()..style = PaintingStyle.fill;
+    canvas.drawRRect(
+        backgroundRectShadow, paint..color = const Color(0xFFCAB28D));
+    // Draw the background rect
+    final backgroundRect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(
+        offset.dx,
+        offset.dy,
+        backgoundRectSize,
+        backgoundRectSize,
+      ),
+      const Radius.circular(15),
+    );
+    canvas.drawRRect(backgroundRect, paint..color = Colors.orange[100]!);
   }
 
   @override

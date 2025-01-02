@@ -5,7 +5,7 @@
 /// File: lib/main.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-01
-/// Last modified: 2025-01-02
+/// Last modified: 2024-01-02
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
       initialRoute: "/splash",
       getPages: [
         GetPage(name: "/splash", page: () => SplashScreen()),
-        GetPage(name: "/game", page: () => SimpleGamePage()),
+        GetPage(name: "/game", page: () => SimpleGameScreen()),
       ],
     );
   }
