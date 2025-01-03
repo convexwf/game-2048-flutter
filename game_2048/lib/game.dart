@@ -5,7 +5,7 @@
 /// File: lib/game.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-02
-/// Last modified: 2024-01-02
+/// Last modified: 2024-01-03
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -84,6 +84,40 @@ class SimpleGame extends FlameGame {
         canvas.drawRRect(rect.shift(Offset(shadowDepth, shadowDepth)),
             paint..color = Colors.black.withValues(alpha: 0.2));
         canvas.drawRRect(rect, paint..color = Colors.white);
+
+        final int value = 32;
+        final textSpan = TextSpan(
+          text: value.toString(),
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+        final textPainter = TextPainter(
+          text: textSpan,
+          textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
+        );
+        textPainter.layout(
+          minWidth: tileSize,
+          maxWidth: tileSize,
+        );
+        textPainter.paint(
+          canvas,
+          Offset(
+            offset.dx +
+                borderSize +
+                j * (tileSize + tilePadding) +
+                tileSize / 2 -
+                textPainter.width / 2,
+            offset.dy +
+                borderSize +
+                i * (tileSize + tilePadding) +
+                tileSize / 2 -
+                textPainter.height / 2,
+          ),
+        );
       }
     }
   }
