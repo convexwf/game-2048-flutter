@@ -56,22 +56,22 @@ void main() {
         [4, 0, 0, 4],
       ]);
       expect(handler.moveSituationList.length, 4);
-      expect(handler.moveSituationList[0].source, Point(0, 0));
+      expect(handler.moveSituationList[0].source, Point(1, 0));
       expect(handler.moveSituationList[0].target, Point(3, 0));
-      expect(handler.moveSituationList[0].isMerged, isFalse);
-      expect(handler.moveSituationList[0].isRemoved, isTrue);
-      expect(handler.moveSituationList[1].source, Point(1, 0));
+      expect(handler.moveSituationList[0].isMerged, isTrue);
+      expect(handler.moveSituationList[0].isRemoved, isFalse);
+      expect(handler.moveSituationList[1].source, Point(0, 0));
       expect(handler.moveSituationList[1].target, Point(3, 0));
-      expect(handler.moveSituationList[1].isMerged, isTrue);
-      expect(handler.moveSituationList[1].isRemoved, isFalse);
-      expect(handler.moveSituationList[2].source, Point(0, 3));
+      expect(handler.moveSituationList[1].isMerged, isFalse);
+      expect(handler.moveSituationList[1].isRemoved, isTrue);
+      expect(handler.moveSituationList[2].source, Point(1, 3));
       expect(handler.moveSituationList[2].target, Point(3, 3));
-      expect(handler.moveSituationList[2].isMerged, isFalse);
-      expect(handler.moveSituationList[2].isRemoved, isTrue);
-      expect(handler.moveSituationList[3].source, Point(1, 3));
+      expect(handler.moveSituationList[0].isMerged, isTrue);
+      expect(handler.moveSituationList[0].isRemoved, isFalse);
+      expect(handler.moveSituationList[3].source, Point(0, 3));
       expect(handler.moveSituationList[3].target, Point(3, 3));
-      expect(handler.moveSituationList[3].isMerged, isTrue);
-      expect(handler.moveSituationList[3].isRemoved, isFalse);
+      expect(handler.moveSituationList[1].isMerged, isFalse);
+      expect(handler.moveSituationList[1].isRemoved, isTrue);
     });
 
     test('move left', () {
@@ -128,28 +128,26 @@ void main() {
         [0, 0, 0, 0],
       ]);
       expect(handler.moveSituationList.length, 4);
-      expect(handler.moveSituationList[0].source, Point(0, 0));
+      expect(handler.moveSituationList[0].source, Point(0, 3));
       expect(handler.moveSituationList[0].target, Point(0, 3));
-      expect(handler.moveSituationList[0].isMerged, isFalse);
-      expect(handler.moveSituationList[0].isRemoved, isTrue);
-      expect(handler.moveSituationList[1].source, Point(0, 3));
+      expect(handler.moveSituationList[0].isMerged, isTrue);
+      expect(handler.moveSituationList[0].isRemoved, isFalse);
+      expect(handler.moveSituationList[1].source, Point(0, 0));
       expect(handler.moveSituationList[1].target, Point(0, 3));
-      expect(handler.moveSituationList[1].isMerged, isTrue);
-      expect(handler.moveSituationList[1].isRemoved, isFalse);
-      expect(handler.moveSituationList[2].source, Point(1, 0));
+      expect(handler.moveSituationList[1].isMerged, isFalse);
+      expect(handler.moveSituationList[1].isRemoved, isTrue);
+      expect(handler.moveSituationList[2].source, Point(1, 3));
       expect(handler.moveSituationList[2].target, Point(1, 3));
-      expect(handler.moveSituationList[2].isMerged, isFalse);
-      expect(handler.moveSituationList[2].isRemoved, isTrue);
-      expect(handler.moveSituationList[3].source, Point(1, 3));
+      expect(handler.moveSituationList[2].isMerged, isTrue);
+      expect(handler.moveSituationList[2].isRemoved, isFalse);
+      expect(handler.moveSituationList[3].source, Point(1, 0));
       expect(handler.moveSituationList[3].target, Point(1, 3));
-      expect(handler.moveSituationList[3].isMerged, isTrue);
-      expect(handler.moveSituationList[3].isRemoved, isFalse);
     });
 
     test('no move', () {
       final handler = NumberMatrixHandler(4, [
         [2, 0, 0, 2],
-        [2, 0, 0, 2],
+        [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
       ]);
@@ -159,7 +157,7 @@ void main() {
       expect(moved, isFalse);
       expect(handler.matrix, [
         [2, 0, 0, 2],
-        [2, 0, 0, 2],
+        [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
       ]);

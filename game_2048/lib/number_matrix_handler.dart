@@ -23,6 +23,22 @@ class Point {
   final int y;
 
   Point(this.x, this.y);
+
+  @override
+  String toString() {
+    return '($x, $y)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Point) {
+      return x == other.x && y == other.y;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode => x.hashCode ^ y.hashCode;
 }
 
 class MoveSituation {
@@ -43,7 +59,7 @@ class NumberMatrixHandler {
   NumberMatrixHandler(this.size, this.matrix)
       : nextMatrix =
             List.generate(size, (index) => List.generate(size, (index) => 0)),
-        moveSituationList = List.empty();
+        moveSituationList = [];
 
   bool move(MoveDirection direction) {
     moveSituationList.clear();
@@ -111,7 +127,7 @@ class NumberMatrixHandler {
           List.generate(size, (index) => matrix[index][col]);
       final List<int> newColumn = _moveAndMerge(column.reversed.toList());
       for (int row = 0; row < size; row++) {
-        matrix[row][col] = newColumn[size - row - 1];
+        nextMatrix[row][col] = newColumn[size - row - 1];
       }
       List<List<int>> movePositions =
           _determineMovePositions(column.reversed.toList(), newColumn);
@@ -131,7 +147,7 @@ class NumberMatrixHandler {
     for (int row = 0; row < size; row++) {
       final List<int> newRow = _moveAndMerge(matrix[row]);
       for (int col = 0; col < size; col++) {
-        matrix[row][col] = newRow[col];
+        nextMatrix[row][col] = newRow[col];
       }
       List<List<int>> movePositions =
           _determineMovePositions(matrix[row], newRow);
@@ -151,7 +167,7 @@ class NumberMatrixHandler {
     for (int row = 0; row < size; row++) {
       final List<int> newRow = _moveAndMerge(matrix[row].reversed.toList());
       for (int col = 0; col < size; col++) {
-        matrix[row][col] = newRow[size - col - 1];
+        nextMatrix[row][col] = newRow[size - col - 1];
       }
       List<List<int>> movePositions =
           _determineMovePositions(matrix[row].reversed.toList(), newRow);
@@ -200,8 +216,10 @@ class NumberMatrixHandler {
         movePositions.add([i, index, 0, 0]);
         index++;
       } else {
-        movePositions.add([i, index, 1, 0]);
-        index++;
+        movePositions.add([i++, index, 1, 0]);
+        while (i < originalArray.length && originalArray[i] == 0) {
+          i++;
+        }
         movePositions.add([i, index, 0, 1]);
         index++;
       }
