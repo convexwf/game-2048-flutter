@@ -140,8 +140,12 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
       final int col = moveSituation.source.y;
       final int newRow = moveSituation.target.x;
       final int newCol = moveSituation.target.y;
-      grid[newRow][newCol] = grid[row][col];
-      grid[row][col] = null;
+      final bool isRemoved = moveSituation.isRemoved;
+      if (isRemoved) {
+        grid[row][col] = null;
+      } else {
+        grid[newRow][newCol] = grid[row][col];
+      }
     }
   }
 
