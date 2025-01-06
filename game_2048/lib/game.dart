@@ -11,6 +11,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
+import 'package:game_2048/game_constants.dart';
 import 'package:game_2048/number_tile.dart';
 
 class SimpleGameScreen extends StatelessWidget {
@@ -29,10 +30,16 @@ class SimpleGame extends FlameGame {
   double time = 0.0;
   bool isWhite = false;
 
+  final int gridSize = GameConstants.gridSize;
+  final double borderSize = GameConstants.gridBorderSize;
+  final double tileSize = GameConstants.tileSize;
+  final double tilePadding = GameConstants.tilePadding;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    add(NumberTileComponent(2, Vector2(0, 0), Offset(10, 10)));
+    add(NumberTileComponent(
+        2, Vector2(0, 0), Offset(10 + borderSize, 10 + borderSize)));
   }
 
   @override
@@ -40,15 +47,11 @@ class SimpleGame extends FlameGame {
     super.render(canvas);
     // canvas.drawColor(currentColor, BlendMode.src);
 
-    final int gridSize = 4;
-    final double tileSize = 80;
-    final double tilePadding = 15;
-    final double borderSize = 15;
     final double shadowDepth = 4;
 
     final double backgoundRectSize =
         gridSize * (tileSize + tilePadding) - tilePadding + 2 * borderSize;
-    Offset offset = Offset(10 + borderSize, 10 + borderSize);
+    Offset offset = Offset(10, 10);
 
     // Draw the background rect shadow (must paint first)
     final backgroundRectShadow = RRect.fromRectAndRadius(

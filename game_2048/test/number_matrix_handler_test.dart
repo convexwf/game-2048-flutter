@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:game_2048/number_matrix_handler.dart';
 
@@ -63,16 +65,18 @@ void main() {
       expect(handler2.moveSituationList[1].target, Point(0, 0));
       expect(handler2.moveSituationList[1].isMerged, isFalse);
       expect(handler2.moveSituationList[1].isRemoved, isTrue);
-      expect(handler2.moveSituationList[2].source, Point(0, 3));
-      expect(handler2.moveSituationList[2].target, Point(0, 3));
-      expect(handler2.moveSituationList[2].isMerged, isTrue);
+      expect(handler2.moveSituationList[2].source, Point(0, 1));
+      expect(handler2.moveSituationList[2].target, Point(0, 1));
+      expect(handler2.moveSituationList[2].isMerged, isFalse);
       expect(handler2.moveSituationList[2].isRemoved, isFalse);
-      expect(handler2.moveSituationList[3].source, Point(1, 3));
+      expect(handler2.moveSituationList[3].source, Point(0, 3));
       expect(handler2.moveSituationList[3].target, Point(0, 3));
-      expect(handler2.moveSituationList[4].source, Point(0, 1));
-      expect(handler2.moveSituationList[4].target, Point(0, 1));
-      expect(handler2.moveSituationList[4].isMerged, isTrue);
-      expect(handler2.moveSituationList[4].isRemoved, isFalse);
+      expect(handler2.moveSituationList[3].isMerged, isTrue);
+      expect(handler2.moveSituationList[3].isRemoved, isFalse);
+      expect(handler2.moveSituationList[4].source, Point(1, 3));
+      expect(handler2.moveSituationList[4].target, Point(0, 3));
+      expect(handler2.moveSituationList[4].isMerged, isFalse);
+      expect(handler2.moveSituationList[4].isRemoved, isTrue);
     });
 
     test('move down', () {
@@ -207,22 +211,22 @@ void main() {
       expect(handler2.moveSituationList[0].target, Point(0, 0));
       expect(handler2.moveSituationList[0].isMerged, isTrue);
       expect(handler2.moveSituationList[0].isRemoved, isFalse);
-      expect(handler2.moveSituationList[1].source, Point(0, 3));
+      expect(handler2.moveSituationList[1].source, Point(0, 1));
       expect(handler2.moveSituationList[1].target, Point(0, 0));
       expect(handler2.moveSituationList[1].isMerged, isFalse);
       expect(handler2.moveSituationList[1].isRemoved, isTrue);
-      expect(handler2.moveSituationList[2].source, Point(1, 0));
-      expect(handler2.moveSituationList[2].target, Point(1, 0));
-      expect(handler2.moveSituationList[2].isMerged, isTrue);
+      expect(handler2.moveSituationList[2].source, Point(0, 3));
+      expect(handler2.moveSituationList[2].target, Point(0, 1));
+      expect(handler2.moveSituationList[2].isMerged, isFalse);
       expect(handler2.moveSituationList[2].isRemoved, isFalse);
-      expect(handler2.moveSituationList[3].source, Point(1, 3));
+      expect(handler2.moveSituationList[3].source, Point(1, 0));
       expect(handler2.moveSituationList[3].target, Point(1, 0));
-      expect(handler2.moveSituationList[3].isMerged, isFalse);
-      expect(handler2.moveSituationList[3].isRemoved, isTrue);
-      expect(handler2.moveSituationList[4].source, Point(0, 1));
-      expect(handler2.moveSituationList[4].target, Point(0, 1));
+      expect(handler2.moveSituationList[3].isMerged, isTrue);
+      expect(handler2.moveSituationList[3].isRemoved, isFalse);
+      expect(handler2.moveSituationList[4].source, Point(1, 3));
+      expect(handler2.moveSituationList[4].target, Point(1, 0));
       expect(handler2.moveSituationList[4].isMerged, isFalse);
-      expect(handler2.moveSituationList[4].isRemoved, isFalse);
+      expect(handler2.moveSituationList[4].isRemoved, isTrue);
     });
 
     test('move right', () {
@@ -280,22 +284,22 @@ void main() {
       expect(handler2.moveSituationList[0].target, Point(0, 3));
       expect(handler2.moveSituationList[0].isMerged, isTrue);
       expect(handler2.moveSituationList[0].isRemoved, isFalse);
-      expect(handler2.moveSituationList[1].source, Point(0, 0));
+      expect(handler2.moveSituationList[1].source, Point(0, 1));
       expect(handler2.moveSituationList[1].target, Point(0, 3));
       expect(handler2.moveSituationList[1].isMerged, isFalse);
       expect(handler2.moveSituationList[1].isRemoved, isTrue);
-      expect(handler2.moveSituationList[2].source, Point(1, 3));
-      expect(handler2.moveSituationList[2].target, Point(1, 3));
-      expect(handler2.moveSituationList[2].isMerged, isTrue);
+      expect(handler2.moveSituationList[2].source, Point(0, 0));
+      expect(handler2.moveSituationList[2].target, Point(0, 2));
+      expect(handler2.moveSituationList[2].isMerged, isFalse);
       expect(handler2.moveSituationList[2].isRemoved, isFalse);
-      expect(handler2.moveSituationList[3].source, Point(1, 0));
+      expect(handler2.moveSituationList[3].source, Point(1, 3));
       expect(handler2.moveSituationList[3].target, Point(1, 3));
-      expect(handler2.moveSituationList[3].isMerged, isFalse);
-      expect(handler2.moveSituationList[3].isRemoved, isTrue);
-      expect(handler2.moveSituationList[4].source, Point(0, 1));
-      expect(handler2.moveSituationList[4].target, Point(0, 2));
+      expect(handler2.moveSituationList[3].isMerged, isTrue);
+      expect(handler2.moveSituationList[3].isRemoved, isFalse);
+      expect(handler2.moveSituationList[4].source, Point(1, 0));
+      expect(handler2.moveSituationList[4].target, Point(1, 3));
       expect(handler2.moveSituationList[4].isMerged, isFalse);
-      expect(handler2.moveSituationList[4].isRemoved, isFalse);
+      expect(handler2.moveSituationList[4].isRemoved, isTrue);
     });
 
     test('no move', () {
