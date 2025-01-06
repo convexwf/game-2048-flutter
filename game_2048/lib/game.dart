@@ -9,9 +9,12 @@
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
+import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:game_2048/game_constants.dart';
+import 'package:game_2048/number_matrix_handler.dart';
 import 'package:game_2048/number_tile.dart';
 
 class SimpleGameScreen extends StatelessWidget {
@@ -23,28 +26,113 @@ class SimpleGameScreen extends StatelessWidget {
   }
 }
 
-class SimpleGame extends FlameGame {
-  late Color currentColor = Colors.black;
-
-  double duration = 3.0;
-  double time = 0.0;
-  bool isWhite = false;
-
+class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
   final int gridSize = GameConstants.gridSize;
   final double borderSize = GameConstants.gridBorderSize;
   final double tileSize = GameConstants.tileSize;
   final double tilePadding = GameConstants.tilePadding;
 
+  late List<List<NumberTileComponent?>> grid;
+  late NumberMatrixHandler matrixHandler;
+
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    add(NumberTileComponent(
-        2, Vector2(0, 0), Offset(10 + borderSize, 10 + borderSize)));
+    matrixHandler = NumberMatrixHandler(gridSize, [
+      [2, 0, 2, 0],
+      [0, 0, 0, 0],
+      [0, 2, 0, 0],
+      [0, 0, 0, 2],
+    ]);
+    // generate grid according to matrix
+    grid = List.generate(
+      gridSize,
+      (i) => List.generate(
+        gridSize,
+        (j) {
+          final int value = matrixHandler.matrix[i][j];
+          if (value == 0) {
+            return null;
+          }
+          final numberTile = NumberTileComponent(
+            value,
+            Vector2(i.toDouble(), j.toDouble()),
+            Offset(
+              10 + borderSize,
+              10 + borderSize,
+            ),
+          );
+          add(numberTile);
+          return numberTile;
+        },
+      ),
+    );
+
+    // add(KeyboardListenerComponent(
+
+    // ))
+  }
+
+  Vector2 dragEvent = Vector2.zero();
+
+  @override
+  void onDragStart(DragStartEvent event) {
+    super.onDragStart(event);
+    dragEvent = Vector2.zero();
+  }
+
+  @override
+  void onDragUpdate(DragUpdateEvent event) {
+    dragEvent += event.localDelta;
+  }
+
+  @override
+  void onDragEnd(DragEndEvent event) {
+    super.onDragEnd(event);
+    const double threshold = 20;
+    if (dragEvent.length > threshold) {
+      if (dragEvent.x.abs() > dragEvent.y.abs()) {
+        if (dragEvent.x > 0) {
+          _move(MoveDirection.right);
+        } else {
+          _move(MoveDirection.left);
+        }
+      } else {
+        if (dragEvent.y > 0) {
+          _move(MoveDirection.down);
+        } else {
+          _move(MoveDirection.up);
+        }
+      }
+    }
+  }
+
+  void _move(MoveDirection direction) {
+    if (!matrixHandler.move(direction)) {
+      return;
+    }
+    for (int i = 0; i < matrixHandler.moveSituationList.length; i++) {
+      final moveSituation = matrixHandler.moveSituationList[i];
+      final int row = moveSituation.source.x;
+      final int col = moveSituation.source.y;
+      final int newRow = moveSituation.target.x;
+      final int newCol = moveSituation.target.y;
+      final bool isMerged = moveSituation.isMerged;
+      final bool isRemoved = moveSituation.isRemoved;
+      final NumberTileComponent? numberTile = grid[row][col];
+      if (numberTile == null) {
+        continue;
+      }
+      numberTile.moveTo(
+        Vector2(newRow.toDouble(), newCol.toDouble()),
+        isMerged,
+        isRemoved,
+      );
+    }
   }
 
   @override
   void render(Canvas canvas) {
-    super.render(canvas);
     // canvas.drawColor(currentColor, BlendMode.src);
 
     final double shadowDepth = 4;
@@ -129,25 +217,27 @@ class SimpleGame extends FlameGame {
         // );
       }
     }
+    super.render(canvas);
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    if (isWhite) {
-      time += dt;
-      if (time >= duration) {
-        time = duration;
-        isWhite = false;
-      }
-    } else {
-      time -= dt;
-      if (time <= 0) {
-        time = 0;
-        isWhite = true;
-      }
-    }
-    currentColor =
-        Color.lerp(Colors.black, Colors.white, time / duration) ?? Colors.black;
+
+    // if (isWhite) {
+    //   time += dt;
+    //   if (time >= duration) {
+    //     time = duration;
+    //     isWhite = false;
+    //   }
+    // } else {
+    //   time -= dt;
+    //   if (time <= 0) {
+    //     time = 0;
+    //     isWhite = true;
+    //   }
+    // }
+    // currentColor =
+    //     Color.lerp(Colors.black, Colors.white, time / duration) ?? Colors.black;
   }
 }
