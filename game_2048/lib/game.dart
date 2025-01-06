@@ -94,14 +94,18 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
       if (dragEvent.x.abs() > dragEvent.y.abs()) {
         if (dragEvent.x > 0) {
           _move(MoveDirection.right);
+          debugPrint('received right');
         } else {
           _move(MoveDirection.left);
+          debugPrint('received left');
         }
       } else {
         if (dragEvent.y > 0) {
           _move(MoveDirection.down);
+          debugPrint('received down');
         } else {
           _move(MoveDirection.up);
+          debugPrint('received up');
         }
       }
     }
@@ -113,6 +117,7 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
     }
     for (int i = 0; i < matrixHandler.moveSituationList.length; i++) {
       final moveSituation = matrixHandler.moveSituationList[i];
+      debugPrint('moveSituation: $moveSituation');
       final int row = moveSituation.source.x;
       final int col = moveSituation.source.y;
       final int newRow = moveSituation.target.x;
@@ -128,6 +133,15 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
         isMerged,
         isRemoved,
       );
+    }
+    for (int i = 0; i < matrixHandler.moveSituationList.length; i++) {
+      final moveSituation = matrixHandler.moveSituationList[i];
+      final int row = moveSituation.source.x;
+      final int col = moveSituation.source.y;
+      final int newRow = moveSituation.target.x;
+      final int newCol = moveSituation.target.y;
+      grid[newRow][newCol] = grid[row][col];
+      grid[row][col] = null;
     }
   }
 

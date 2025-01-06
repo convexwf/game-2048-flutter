@@ -7,7 +7,7 @@ import 'package:flame/game.dart';
 /// File: lib/number_matrix_handler.dart
 /// Email: convexwf@gmail.com
 /// Created: 2024-01-03
-/// Last modified: 2024-01-04
+/// Last modified: 2025-01-06
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -48,6 +48,11 @@ class MoveSituation {
   final bool isRemoved;
 
   MoveSituation(this.source, this.target, this.isMerged, this.isRemoved);
+
+  @override
+  String toString() {
+    return 'source: $source, target: $target, isMerged: $isMerged, isRemoved: $isRemoved';
+  }
 }
 
 class NumberMatrixHandler {

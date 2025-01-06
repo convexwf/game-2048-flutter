@@ -27,6 +27,7 @@ class NumberTileComponent extends PositionComponent {
   @override
   Future<void> onLoad() async {
     position = _translatePosition(matrixPosition);
+    debugPrint('NumberTileComponent $matrixPosition, $position');
     size = Vector2(tileSize, tileSize);
   }
 
@@ -67,7 +68,8 @@ class NumberTileComponent extends PositionComponent {
   }
 
   Vector2 _translatePosition(Vector2 position) {
-    return position * (tileSize + tilePadding) + Vector2(offset.dx, offset.dy);
+    return Vector2(position.y, position.x) * (tileSize + tilePadding) +
+        Vector2(offset.dx, offset.dy);
   }
 
   void moveTo(Vector2 newPosition, bool isMerged, bool isRemoved) {
@@ -84,7 +86,7 @@ class NumberTileComponent extends PositionComponent {
         numberValue *= 2;
       }
       if (isRemoved) {
-        remove(this);
+        removeFromParent();
       }
     };
   }
