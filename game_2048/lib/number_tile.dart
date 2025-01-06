@@ -5,7 +5,7 @@
 /// File: lib/number_tile.dart
 /// Email: convexwf@gmail.com
 /// Created: 2024-01-04
-/// Last modified: 2024-01-04
+/// Last modified: 2025-01-06
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -17,18 +17,16 @@ import 'package:game_2048/game_constants.dart';
 class NumberTileComponent extends PositionComponent {
   int numberValue;
   Vector2 matrixPosition;
-  late Vector2 paintPosition;
 
   final double tileSize = GameConstants.tileSize;
   final double tilePadding = GameConstants.tilePadding;
   final Offset offset;
 
-  NumberTileComponent(this.numberValue, this.matrixPosition, this.offset) {
-    paintPosition = _translatePosition(matrixPosition);
-  }
+  NumberTileComponent(this.numberValue, this.matrixPosition, this.offset);
 
   @override
   Future<void> onLoad() async {
+    position = _translatePosition(matrixPosition);
     size = Vector2(tileSize, tileSize);
   }
 
@@ -40,7 +38,7 @@ class NumberTileComponent extends PositionComponent {
       ..style = PaintingStyle.fill;
 
     final RRect rect = RRect.fromRectAndRadius(
-      Rect.fromLTWH(paintPosition.x, paintPosition.y, tileSize, tileSize),
+      Rect.fromLTWH(0, 0, tileSize, tileSize),
       const Radius.circular(10),
     );
 
@@ -62,8 +60,8 @@ class NumberTileComponent extends PositionComponent {
     textPainter.paint(
       canvas,
       Offset(
-        paintPosition.x + tileSize / 2 - textPainter.width / 2,
-        paintPosition.y + tileSize / 2 - textPainter.height / 2,
+        tileSize / 2 - textPainter.width / 2,
+        tileSize / 2 - textPainter.height / 2,
       ),
     );
   }
@@ -72,11 +70,22 @@ class NumberTileComponent extends PositionComponent {
     return position * (tileSize + tilePadding) + Vector2(offset.dx, offset.dy);
   }
 
-  void moveTo(Vector2 newPosition) {
-    // final MoveEffect moveEffect = MoveEffect.to(destination, controller)
-
-    // matrixPosition = newPosition;
-    // paintPosition = matrixPosition * (tileSize + tilePadding) +
-    //     Vector2(offset.dx, offset.dy);
+  void moveTo(Vector2 newPosition, bool isMerged, bool isRemoved) {
+    matrixPosition = newPosition;
+    final Vector2 newPaintPosition = _translatePosition(newPosition);
+    final MoveEffect moveEffect = MoveEffect.to(
+        newPaintPosition,
+        EffectController(
+          duration: 0.5,
+        ));
+    add(moveEffect);
+    moveEffect.onComplete = () {
+      if (isMerged) {
+        numberValue *= 2;
+      }
+      if (isRemoved) {
+        remove(this);
+      }
+    };
   }
 }
