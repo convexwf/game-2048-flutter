@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/game.dart';
 
 /// Copyright (c) 2025 convexwf
@@ -7,7 +9,7 @@ import 'package:flame/game.dart';
 /// File: lib/number_matrix_handler.dart
 /// Email: convexwf@gmail.com
 /// Created: 2024-01-03
-/// Last modified: 2025-01-06
+/// Last modified: 2025-01-07
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -56,15 +58,74 @@ class MoveSituation {
 }
 
 class NumberMatrixHandler {
+  final int randomSeed;
   final int size;
   final List<List<int>> matrix;
   final List<List<int>> nextMatrix;
   final List<MoveSituation> moveSituationList;
+  int moveCount = 0;
 
-  NumberMatrixHandler(this.size, this.matrix)
-      : nextMatrix =
-            List.generate(size, (index) => List.generate(size, (index) => 0)),
+  NumberMatrixHandler.fromMatrix(this.matrix, {this.randomSeed = 0})
+      : size = matrix.length,
+        nextMatrix = List.generate(matrix.length,
+            (index) => List.generate(matrix.length, (index) => 0)),
         moveSituationList = [];
+
+  NumberMatrixHandler.random({this.size = 4, this.randomSeed = 0})
+      : matrix =
+            List.generate(size, (index) => List.generate(size, (index) => 0)),
+        nextMatrix =
+            List.generate(size, (index) => List.generate(size, (index) => 0)),
+        moveSituationList = [] {
+    _initRandomMatrix();
+  }
+
+  void _initRandomMatrix() {
+    final random = Random(randomSeed);
+    final int putCount = random.nextInt(2) + 4;
+    List<int> numberList = List.generate(size * size, (index) => index + 1);
+    numberList.shuffle(random);
+    for (int i = 0; i < putCount; i++) {
+      final int number = numberList[i];
+      final int row = (number - 1) ~/ size;
+      final int col = (number - 1) % size;
+      final putNumber = random.nextInt(3) == 0 ? 4 : 2;
+      matrix[row][col] = putNumber;
+    }
+  }
+
+  void _addRandomNumber(MoveDirection direction) {
+    moveCount++;
+    final random = Random(randomSeed + moveCount);
+    int putPosition = random.nextInt(size - 1);
+    final putNumber = random.nextInt(3) == 0 ? 4 : 2;
+    switch (direction) {
+      case MoveDirection.up:
+        while (matrix[size - 1][putPosition] != 0) {
+          putPosition = (putPosition + 1) % size;
+        }
+        matrix[size - 1][putPosition] = putNumber;
+        break;
+      case MoveDirection.down:
+        while (matrix[0][putPosition] != 0) {
+          putPosition = (putPosition + 1) % size;
+        }
+        matrix[0][putPosition] = putNumber;
+        break;
+      case MoveDirection.left:
+        while (matrix[putPosition][size - 1] != 0) {
+          putPosition = (putPosition + 1) % size;
+        }
+        matrix[putPosition][size - 1] = putNumber;
+        break;
+      case MoveDirection.right:
+        while (matrix[putPosition][0] != 0) {
+          putPosition = (putPosition + 1) % size;
+        }
+        matrix[putPosition][0] = putNumber;
+        break;
+    }
+  }
 
   bool move(MoveDirection direction) {
     moveSituationList.clear();
@@ -88,6 +149,7 @@ class NumberMatrixHandler {
           matrix[row][col] = nextMatrix[row][col];
         }
       }
+      _addRandomNumber(direction);
       return true;
     }
     return false;

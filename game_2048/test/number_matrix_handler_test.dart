@@ -6,7 +6,7 @@ import 'package:game_2048/number_matrix_handler.dart';
 void main() {
   group('NumberMatrixHandler', () {
     test('move up', () {
-      final handler = NumberMatrixHandler(4, [
+      final handler = NumberMatrixHandler.fromMatrix([
         [2, 0, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -40,7 +40,7 @@ void main() {
       expect(handler.moveSituationList[3].target, Point(0, 3));
 
       // more complex case
-      final handler2 = NumberMatrixHandler(4, [
+      final handler2 = NumberMatrixHandler.fromMatrix([
         [2, 2, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -80,7 +80,7 @@ void main() {
     });
 
     test('move down', () {
-      final handler = NumberMatrixHandler(4, [
+      final handler = NumberMatrixHandler.fromMatrix([
         [2, 0, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -115,7 +115,7 @@ void main() {
       expect(handler.moveSituationList[1].isRemoved, isTrue);
 
       // more complex case
-      final handler2 = NumberMatrixHandler(4, [
+      final handler2 = NumberMatrixHandler.fromMatrix([
         [2, 2, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -155,7 +155,7 @@ void main() {
     });
 
     test('move left', () {
-      final handler = NumberMatrixHandler(4, [
+      final handler = NumberMatrixHandler.fromMatrix([
         [2, 0, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -190,7 +190,7 @@ void main() {
       expect(handler.moveSituationList[1].isRemoved, isTrue);
 
       // more complex case
-      final handler2 = NumberMatrixHandler(4, [
+      final handler2 = NumberMatrixHandler.fromMatrix([
         [2, 2, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -230,7 +230,7 @@ void main() {
     });
 
     test('move right', () {
-      final handler = NumberMatrixHandler(4, [
+      final handler = NumberMatrixHandler.fromMatrix([
         [2, 0, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -263,7 +263,7 @@ void main() {
       expect(handler.moveSituationList[3].target, Point(1, 3));
 
       // more complex case
-      final handler2 = NumberMatrixHandler(4, [
+      final handler2 = NumberMatrixHandler.fromMatrix([
         [2, 2, 0, 2],
         [2, 0, 0, 2],
         [0, 0, 0, 0],
@@ -303,7 +303,7 @@ void main() {
     });
 
     test('no move', () {
-      final handler = NumberMatrixHandler(4, [
+      final handler = NumberMatrixHandler.fromMatrix([
         [2, 0, 0, 2],
         [0, 0, 0, 0],
         [0, 0, 0, 0],

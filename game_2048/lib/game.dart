@@ -5,7 +5,7 @@
 /// File: lib/game.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-02
-/// Last modified: 2025-01-06
+/// Last modified: 2025-01-07
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -38,12 +38,8 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    matrixHandler = NumberMatrixHandler(gridSize, [
-      [2, 0, 2, 0],
-      [0, 0, 0, 0],
-      [0, 2, 0, 0],
-      [0, 0, 0, 2],
-    ]);
+    matrixHandler = NumberMatrixHandler.random(
+        randomSeed: DateTime.now().millisecondsSinceEpoch);
     // generate grid according to matrix
     grid = List.generate(
       gridSize,
