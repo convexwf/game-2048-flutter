@@ -9,7 +9,7 @@ import 'package:flame/game.dart';
 /// File: lib/number_matrix_handler.dart
 /// Email: convexwf@gmail.com
 /// Created: 2024-01-03
-/// Last modified: 2025-01-07
+/// Last modified: 2025-01-08
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -83,12 +83,12 @@ class NumberMatrixHandler {
   void _initRandomMatrix() {
     final random = Random(randomSeed);
     final int putCount = random.nextInt(2) + 4;
-    List<int> numberList = List.generate(size * size, (index) => index + 1);
+    List<int> numberList = List.generate(size * size, (index) => index);
     numberList.shuffle(random);
     for (int i = 0; i < putCount; i++) {
       final int number = numberList[i];
-      final int row = (number - 1) ~/ size;
-      final int col = (number - 1) % size;
+      final int row = number ~/ size;
+      final int col = number % size;
       final putNumber = random.nextInt(3) == 0 ? 4 : 2;
       matrix[row][col] = putNumber;
     }
@@ -105,24 +105,32 @@ class NumberMatrixHandler {
           putPosition = (putPosition + 1) % size;
         }
         matrix[size - 1][putPosition] = putNumber;
+        moveSituationList.add(MoveSituation(Point(size - 1, putPosition),
+            Point(size - 1, putPosition), false, false));
         break;
       case MoveDirection.down:
         while (matrix[0][putPosition] != 0) {
           putPosition = (putPosition + 1) % size;
         }
         matrix[0][putPosition] = putNumber;
+        moveSituationList.add(MoveSituation(
+            Point(0, putPosition), Point(0, putPosition), false, false));
         break;
       case MoveDirection.left:
         while (matrix[putPosition][size - 1] != 0) {
           putPosition = (putPosition + 1) % size;
         }
         matrix[putPosition][size - 1] = putNumber;
+        moveSituationList.add(MoveSituation(Point(putPosition, size - 1),
+            Point(putPosition, size - 1), false, false));
         break;
       case MoveDirection.right:
         while (matrix[putPosition][0] != 0) {
           putPosition = (putPosition + 1) % size;
         }
         matrix[putPosition][0] = putNumber;
+        moveSituationList.add(MoveSituation(
+            Point(putPosition, 0), Point(putPosition, 0), false, false));
         break;
     }
   }

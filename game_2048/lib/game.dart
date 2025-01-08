@@ -5,7 +5,7 @@
 /// File: lib/game.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-02
-/// Last modified: 2025-01-07
+/// Last modified: 2025-01-08
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -65,6 +65,7 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
     );
 
     // add(KeyboardListenerComponent(
+    debugPrint(matrixHandler.matrix.toString());
 
     // ))
   }
@@ -89,19 +90,19 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
     if (dragEvent.length > threshold) {
       if (dragEvent.x.abs() > dragEvent.y.abs()) {
         if (dragEvent.x > 0) {
-          _move(MoveDirection.right);
           debugPrint('received right');
+          _move(MoveDirection.right);
         } else {
-          _move(MoveDirection.left);
           debugPrint('received left');
+          _move(MoveDirection.left);
         }
       } else {
         if (dragEvent.y > 0) {
-          _move(MoveDirection.down);
           debugPrint('received down');
+          _move(MoveDirection.down);
         } else {
-          _move(MoveDirection.up);
           debugPrint('received up');
+          _move(MoveDirection.up);
         }
       }
     }
@@ -122,6 +123,14 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
       final bool isRemoved = moveSituation.isRemoved;
       final NumberTileComponent? numberTile = grid[row][col];
       if (numberTile == null) {
+        grid[row][col] = NumberTileComponent(
+          matrixHandler.matrix[row][col],
+          Vector2(row.toDouble(), col.toDouble()),
+          Offset(
+            10 + borderSize,
+            10 + borderSize,
+          ),
+        );
         continue;
       }
       numberTile.moveTo(
@@ -142,6 +151,25 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
       } else {
         grid[newRow][newCol] = grid[row][col];
       }
+    }
+
+    // list all the number handles
+    debugPrint('------number handles------');
+    debugPrint(matrixHandler.matrix.toString());
+
+    // list all the number tiles
+    debugPrint('------number tiles------');
+    for (int i = 0; i < grid.length; i++) {
+      String info = "";
+      for (int j = 0; j < grid[i].length; j++) {
+        final NumberTileComponent? numberTile = grid[i][j];
+        if (numberTile == null) {
+          info += 'null ';
+          continue;
+        }
+        info += '${numberTile.numberValue} ';
+      }
+      debugPrint(info);
     }
   }
 

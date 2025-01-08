@@ -5,7 +5,7 @@
 /// File: lib/number_tile.dart
 /// Email: convexwf@gmail.com
 /// Created: 2024-01-04
-/// Last modified: 2025-01-06
+/// Last modified: 2025-01-08
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -27,7 +27,7 @@ class NumberTileComponent extends PositionComponent {
   @override
   Future<void> onLoad() async {
     position = _translatePosition(matrixPosition);
-    debugPrint('NumberTileComponent $matrixPosition, $position');
+    debugPrint('NumberTileComponent $numberValue $matrixPosition, $position');
     size = Vector2(tileSize, tileSize);
   }
 
