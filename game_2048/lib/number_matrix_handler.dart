@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/game.dart';
+import 'package:game_2048/game_constants.dart';
 
 /// Copyright (c) 2025 convexwf
 /// All rights reserved.
@@ -135,7 +136,29 @@ class NumberMatrixHandler {
     }
   }
 
-  bool move(MoveDirection direction) {
+  // 0: moved
+  // 1: not moved
+  // -1: game over
+  GameStatus move(MoveDirection direction) {
+    bool isMoved = _handleMoveOperation(direction);
+    if (isMoved) {
+      for (int row = 0; row < size; row++) {
+        for (int col = 0; col < size; col++) {
+          matrix[row][col] = nextMatrix[row][col];
+        }
+      }
+    }
+    if (_isMatrixOver()) {
+      return GameStatus.gameOver;
+    }
+    if (isMoved) {
+      _addRandomNumber(direction);
+      return GameStatus.moved;
+    }
+    return GameStatus.notMoved;
+  }
+
+  bool _handleMoveOperation(MoveDirection direction) {
     moveSituationList.clear();
     switch (direction) {
       case MoveDirection.up:
@@ -151,16 +174,24 @@ class NumberMatrixHandler {
         _moveRight();
         break;
     }
-    if (_isDifferent(matrix, nextMatrix)) {
-      for (int row = 0; row < size; row++) {
-        for (int col = 0; col < size; col++) {
-          matrix[row][col] = nextMatrix[row][col];
+    return _isDifferent(matrix, nextMatrix);
+  }
+
+  bool _isMatrixOver() {
+    for (int row = 0; row < size; row++) {
+      for (int col = 0; col < size; col++) {
+        if (matrix[row][col] == 0) {
+          return false;
+        }
+        if (row + 1 < size && matrix[row][col] == matrix[row + 1][col]) {
+          return false;
+        }
+        if (col + 1 < size && matrix[row][col] == matrix[row][col + 1]) {
+          return false;
         }
       }
-      _addRandomNumber(direction);
-      return true;
     }
-    return false;
+    return true;
   }
 
   bool _isDifferent(List<List<int>> matrix1, List<List<int>> matrix2) {

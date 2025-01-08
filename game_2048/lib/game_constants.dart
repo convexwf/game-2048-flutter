@@ -5,11 +5,17 @@
 /// File: lib/game_constants.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-04
-/// Last modified: 2025-01-06
+/// Last modified: 2025-01-08
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
 import 'package:flame/extensions.dart';
+
+enum GameStatus {
+  moved,
+  notMoved,
+  gameOver,
+}
 
 class GameConstants {
   // Size properties

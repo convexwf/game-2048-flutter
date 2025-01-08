@@ -109,7 +109,7 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
   }
 
   void _move(MoveDirection direction) {
-    if (!matrixHandler.move(direction)) {
+    if (matrixHandler.move(direction) != GameStatus.moved) {
       return;
     }
     for (int i = 0; i < matrixHandler.moveSituationList.length; i++) {
