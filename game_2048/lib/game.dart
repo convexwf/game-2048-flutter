@@ -121,6 +121,7 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
       final int newCol = moveSituation.target.y;
       final bool isMerged = moveSituation.isMerged;
       final bool isRemoved = moveSituation.isRemoved;
+
       final NumberTileComponent? numberTile = grid[row][col];
       if (numberTile == null) {
         grid[row][col] = NumberTileComponent(
@@ -131,6 +132,7 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
             10 + borderSize,
           ),
         );
+        add(grid[row][col]!);
         continue;
       }
       numberTile.moveTo(
@@ -138,18 +140,15 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
         isMerged,
         isRemoved,
       );
-    }
-    for (int i = 0; i < matrixHandler.moveSituationList.length; i++) {
-      final moveSituation = matrixHandler.moveSituationList[i];
-      final int row = moveSituation.source.x;
-      final int col = moveSituation.source.y;
-      final int newRow = moveSituation.target.x;
-      final int newCol = moveSituation.target.y;
-      final bool isRemoved = moveSituation.isRemoved;
+
       if (isRemoved) {
         grid[row][col] = null;
+      } else if (isMerged) {
+        grid[row][col] = null;
+        grid[newRow][newCol] = numberTile;
       } else {
-        grid[newRow][newCol] = grid[row][col];
+        grid[row][col] = null;
+        grid[newRow][newCol] = numberTile;
       }
     }
 
