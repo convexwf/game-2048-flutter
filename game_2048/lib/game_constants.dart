@@ -5,7 +5,7 @@
 /// File: lib/game_constants.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-04
-/// Last modified: 2025-01-08
+/// Last modified: 2025-01-13
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
@@ -26,7 +26,7 @@ class GameConstants {
   static const double shadowDepth = 4;
 
   // Animation properties
-  static const double titleMoveDuration = 0.5;
+  static const double titleMoveDuration = 0.2;
 
   // Color properties
   static const Map<int, Color> numberColorMap = {

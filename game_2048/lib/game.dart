@@ -5,10 +5,11 @@
 /// File: lib/game.dart
 /// Email: convexwf@gmail.com
 /// Created: 2025-01-02
-/// Last modified: 2025-01-08
+/// Last modified: 2025-01-13
 ///
 /// This code is licensed under MIT license (see LICENSE for details)
 
+import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,9 @@ class SimpleGame extends FlameGame with KeyboardHandler, DragCallbacks {
   @override
   Future<void> onLoad() async {
     super.onLoad();
+    // final viewport = FixedResolutionViewport(resolution: Vector2(400, 400));
+    // camera.viewport = viewport;
+
     matrixHandler = NumberMatrixHandler.random(
         randomSeed: DateTime.now().millisecondsSinceEpoch);
     // generate grid according to matrix
